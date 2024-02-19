@@ -56,5 +56,5 @@ public class PersonaEntity {
     private TipoDocumentoEntity tipoDocumento;
     @ManyToOne(optional = false)
     @JoinColumn(name = "tipo_persona_id", nullable = false)
-    private TipoDocumentoEntity tipoPersona;
+    private TipoPersonaEntity tipoPersona;
 }

@@ -1,9 +1,13 @@
 package com.mejia.hexagonal.infraestructure.adapters;
 
+import com.mejia.hexagonal.domain.aggregates.constants.Constants;
 import com.mejia.hexagonal.domain.aggregates.dto.PersonaDTO;
 import com.mejia.hexagonal.domain.aggregates.request.RequestPersona;
 import com.mejia.hexagonal.domain.aggregates.response.ResponseReniec;
 import com.mejia.hexagonal.domain.ports.out.PersonaServiceOut;
+import com.mejia.hexagonal.infraestructure.entity.PersonaEntity;
+import com.mejia.hexagonal.infraestructure.entity.TipoDocumentoEntity;
+import com.mejia.hexagonal.infraestructure.entity.TipoPersonaEntity;
 import com.mejia.hexagonal.infraestructure.mapper.PersonaMapper;
 import com.mejia.hexagonal.infraestructure.redis.RedisService;
 import com.mejia.hexagonal.infraestructure.repository.PersonaRepository;
@@ -99,6 +103,7 @@ public class PersonaAdapter implements PersonaServiceOut {
     }
     private PersonaEntity getEntity(ResponseReniec reniec, RequestPersona requestPersona){
         TipoDocumentoEntity tipoDocumento = tipoDocumentoRepository.findByCodTipo(requestPersona.getTipoDoc());
+        TipoPersonaEntity tipoPersona = tipoPersonaRepository.findByCodTipo(requestPersona.getTipoPer());
         PersonaEntity entity = new PersonaEntity();
         entity.setNumDocu(reniec.getNumeroDocumento());
         entity.setNombres(reniec.getNombres());
@@ -108,6 +113,7 @@ public class PersonaAdapter implements PersonaServiceOut {
         entity.setUsuaCrea(Constants.AUDIT_ADMIN);
         entity.setDateCreate(getTimestamp());
         entity.setTipoDocumento(tipoDocumento);
+        entity.setTipoPersona(tipoPersona);
         return entity;
     }
     private PersonaEntity getEntityUpdate(ResponseReniec reniec, PersonaEntity personaActualizar){
